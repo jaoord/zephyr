@@ -398,3 +398,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/Zephyr/zephyr.db
+/Zephyr/zephyr.db-shm
+/Zephyr/zephyr.db-wal
