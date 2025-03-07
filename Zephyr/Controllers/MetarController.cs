@@ -5,7 +5,7 @@ using Zephyr.Db;
 namespace Zephyr.Controllers;
 
 [ApiController]
-[Route("[controller]/[action]")]
+[Route("[controller]")]
 public class MetarController : ControllerBase
 {
     private readonly ILogger<MetarController> _logger;
@@ -18,11 +18,10 @@ public class MetarController : ControllerBase
         _db = db;
     }
 
-    [Route("{station}")]
-    [HttpGet(Name = "GetLatestMetar")]
+    [HttpGet("Latest/{station}")]
     public IActionResult Latest(string station)
     {
-        if(string.IsNullOrEmpty(station))
+        if (string.IsNullOrEmpty(station))
             return BadRequest();
 
         var metar = _db.Metars
@@ -36,8 +35,8 @@ public class MetarController : ControllerBase
         return Ok(new MetarModel(metar));
     }
 
-    [Route("{station}")]
-    [HttpGet(Name = "GetAverageTemp")]
+
+    [HttpGet("Average/{station}")]
     public IActionResult Average(string station)
     {
         if (string.IsNullOrEmpty(station))
@@ -49,7 +48,7 @@ public class MetarController : ControllerBase
                         .Where(m => m.TemperatureCelsius.HasValue)
                         .Average(m => m.TemperatureCelsius);
 
-        if(!avgTempC.HasValue)
+        if (!avgTempC.HasValue)
             return NotFound();
 
         return Ok(new AverageTemperatureModel(station, avgTempC.Value));
