@@ -92,7 +92,7 @@ namespace Zephyr.MetarUpdate
         {
             MetarText = csv.GetField<string>(0),
             Station = csv.GetField<string>(1),
-            ObservationDateTimeZulu = csv.GetField<DateTime>(2),
+            ObservationDateTimeZulu = DateTime.ParseExact(csv.GetField<string>(2), "yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal),
             TemperatureCelsius = GetTemperature(csv.GetField<string>(5))
         };
 
